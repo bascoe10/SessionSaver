@@ -2,7 +2,7 @@
   "name": "Session Saver",
   "version": "1.0",
   "description": "Chrome extension that make you save a browsing session",
-  "permissions": ["storage"],
+  "permissions": ["activeTab", "declarativeContent", "storage"],
   "background": {
     "scripts": ["main.js"],
     "persistent": false
@@ -10,5 +10,6 @@
   "page_action": {
     "default_popup": "popup.html"
   },
+  "options_page": "options.html",
   "manifest_version": 2
 }
