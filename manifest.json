@@ -1,0 +1,10 @@
+{
+  "name": "Session Saver",
+  "version": "1.0",
+  "description": "Chrome extension that make you save a browsing session",
+  "manifest_version": 2,
+  "background": {
+    "scripts": ["main.js"],
+    "persistent": false
+  }
+}
