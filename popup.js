@@ -4,8 +4,7 @@ saveBtn.onclick = () => {
   let sessionName = getSessionName();
   chrome.tabs.query({ currentWindow: true }, tabs => {
     let tabUrls = tabs.map(tab => tab.url);
-    console.log(tabUrls);
-    console.log(sessionName);
+    storeSession(sessionName, tabUrls);
   });
 };
 
@@ -17,4 +16,20 @@ const getSessionName = () => {
 
 const getDefaultSessionName = () => {
   return `Session @ ${new Date()}`;
+};
+
+const storeSession = (name, urls) => {
+  chrome.storage.sync.get("SessionSaverSessions", function(data) {
+    let sessionStore = data["SessionSaverSessions"];
+    if (!sessionStore) {
+      sessionStore = {};
+    }
+    sessionStore[name] = urls;
+    chrome.storage.sync.set(
+      {
+        SessionSaverSessions: sessionStore
+      },
+      function() {}
+    );
+  });
 };
