@@ -1,13 +1,30 @@
-let saveBtn = document.getElementById("saveSession");
+const saveBtn = document.getElementById("saveSession");
+const options = ["Restore", "Delete"];
+
+const createLiNode = value => {
+  node = document.createElement("li");
+  text = document.createTextNode(value);
+  node.appendChild(text);
+
+  options.forEach(opt => {
+    optNode = document.createElement("a");
+    textNode = document.createTextNode(opt);
+    optNode.appendChild(textNode);
+    optNode.setAttribute("class", "option");
+
+    node.appendChild(optNode);
+  });
+
+  console.log(node);
+  return node;
+};
 
 chrome.storage.sync.get("SessionSaverSessions", data => {
   let sessionStore = data["SessionSaverSessions"];
   let savedSessionsSection = document.getElementById("savedSessions");
   if (sessionStore) {
     Object.keys(sessionStore).forEach(entry => {
-      node = document.createElement("li");
-      text = document.createTextNode(entry);
-      node.appendChild(text);
+      node = createLiNode(entry);
       savedSessionsSection.appendChild(node);
     });
   }
@@ -33,8 +50,7 @@ const getDefaultSessionName = () => {
 
 const storeSession = (name, urls) => {
   let savedSessionsSection = document.getElementById("savedSessions");
-  let node = document.createElement("li");
-  let text = document.createTextNode(name);
+  let node = createLiNode(name);
   chrome.storage.sync.get("SessionSaverSessions", function(data) {
     let sessionStore = data["SessionSaverSessions"];
     if (!sessionStore) {
@@ -46,7 +62,6 @@ const storeSession = (name, urls) => {
         SessionSaverSessions: sessionStore
       },
       function() {
-        node.appendChild(text);
         savedSessionsSection.appendChild(node);
       }
     );
