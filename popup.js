@@ -96,10 +96,14 @@ function createLiNode(value, sessionId) {
   return node;
 }
 
+// TODO: keep track of open session maybe?
 function Restore(sessionId) {
   chrome.storage.sync.get("SessionSaverSessions", function(data) {
     let sessionStore = data["SessionSaverSessions"];
-    console.log(sessionStore[sessionId]);
+    chrome.windows.create({ url: sessionStore[sessionId].urls }, window => {
+      console.log(window);
+    });
+    // console.log(sessionStore[sessionId]);
   });
 }
 
