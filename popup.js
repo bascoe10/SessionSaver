@@ -63,6 +63,7 @@ function createLiNode(value) {
   node = document.createElement("li");
   text = document.createTextNode(value);
   node.appendChild(text);
+  node.setAttribute("class", "session");
 
   options.forEach(opt => {
     optNode = document.createElement("a");
