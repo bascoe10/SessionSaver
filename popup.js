@@ -103,13 +103,15 @@ function Restore(sessionId) {
     chrome.windows.create({ url: sessionStore[sessionId].urls }, window => {
       console.log(window);
     });
-    // console.log(sessionStore[sessionId]);
   });
 }
 
 function Delete(sessionId) {
   chrome.storage.sync.get("SessionSaverSessions", function(data) {
     let sessionStore = data["SessionSaverSessions"];
-    console.log(sessionStore[sessionId]);
+    delete sessionStore[sessionId];
+    chrome.storage.sync.set({
+      SessionSaverSessions: sessionStore
+    });
   });
 }
