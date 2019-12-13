@@ -24,6 +24,7 @@ div#saveSession {
   background: #ffc400;
   padding: 8px;
   border-radius: 12px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 div.sessions {
@@ -37,11 +38,16 @@ ul#savedSessions {
   padding: 5px;
 }
 
+li {
+  padding: 1px;
+}
+
 .option {
   background: #e0e0e0;
   border-radius: 10px;
-  padding: 2px;
-  margin: 3px;
+  padding: 5px;
+  margin: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .options {
