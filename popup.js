@@ -62,8 +62,12 @@ function storeSession(name, urls) {
 function createLiNode(value) {
   node = document.createElement("li");
   text = document.createTextNode(value);
-  node.appendChild(text);
-  node.setAttribute("class", "session");
+  outerDiv = document.createElement("div");
+  outerDiv.appendChild(text);
+  outerDiv.setAttribute("class", "session");
+
+  optContainerNode = document.createElement("div");
+  optContainerNode.setAttribute("class", "options");
 
   options.forEach(opt => {
     optNode = document.createElement("a");
@@ -71,8 +75,11 @@ function createLiNode(value) {
     optNode.appendChild(textNode);
     optNode.setAttribute("class", "option");
 
-    node.appendChild(optNode);
+    optContainerNode.appendChild(optNode);
   });
+
+  outerDiv.appendChild(optContainerNode);
+  node.appendChild(outerDiv);
 
   return node;
 }

@@ -44,6 +44,11 @@ ul#savedSessions {
   margin: 3px;
 }
 
+.options {
+  float: right;
+}
+
 .session {
   margin: 10px;
+  box-sizing: border-box;
 }
