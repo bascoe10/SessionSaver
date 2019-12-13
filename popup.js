@@ -12,7 +12,7 @@ chrome.storage.sync.get("SessionSaverSessions", data => {
     nextSessionIndex = keys.length + 1;
 
     keys.forEach(entry => {
-      node = createLiNode(sessionStore[entry].name);
+      node = createLiNode(sessionStore[entry].name, entry);
       savedSessionsSection.appendChild(node);
     });
   }
@@ -38,7 +38,8 @@ function getDefaultSessionName() {
 
 function storeSession(name, urls) {
   let savedSessionsSection = document.getElementById("savedSessions");
-  let node = createLiNode(name);
+  let timestamp = Date.now();
+  let node = createLiNode(name, timestamp);
   chrome.storage.sync.get("SessionSaverSessions", function(data) {
     let sessionStore = data["SessionSaverSessions"];
     let timestamp = Date.now();
@@ -59,7 +60,7 @@ function storeSession(name, urls) {
   });
 }
 
-function createLiNode(value) {
+function createLiNode(value, sessionId) {
   node = document.createElement("li");
   text = document.createTextNode(value);
   outerDiv = document.createElement("div");
@@ -74,12 +75,37 @@ function createLiNode(value) {
     textNode = document.createTextNode(opt);
     optNode.appendChild(textNode);
     optNode.setAttribute("class", "option");
-
+    optNode.addEventListener(
+      "click",
+      function() {
+        if (this.opt === "Restore") {
+          Restore(this.sessionId);
+        } else if (this.opt === "Delete") {
+          Delete(this.sessionId);
+        }
+      }.bind({ sessionId, opt }),
+      false
+    );
     optContainerNode.appendChild(optNode);
   });
 
   outerDiv.appendChild(optContainerNode);
   node.appendChild(outerDiv);
+  node.setAttribute("data-session-id", sessionId);
 
   return node;
+}
+
+function Restore(sessionId) {
+  chrome.storage.sync.get("SessionSaverSessions", function(data) {
+    let sessionStore = data["SessionSaverSessions"];
+    console.log(sessionStore[sessionId]);
+  });
+}
+
+function Delete(sessionId) {
+  chrome.storage.sync.get("SessionSaverSessions", function(data) {
+    let sessionStore = data["SessionSaverSessions"];
+    console.log(sessionStore[sessionId]);
+  });
 }
