@@ -110,8 +110,20 @@ function Delete(sessionId) {
   chrome.storage.sync.get("SessionSaverSessions", function(data) {
     let sessionStore = data["SessionSaverSessions"];
     delete sessionStore[sessionId];
-    chrome.storage.sync.set({
-      SessionSaverSessions: sessionStore
-    });
+    chrome.storage.sync.set(
+      {
+        SessionSaverSessions: sessionStore
+      },
+      () => {
+        let savedSessionsSection = document.getElementById("savedSessions");
+        let nodeToRemove;
+        savedSessionsSection.childNodes.forEach(node => {
+          if (node.dataset.sessionId === sessionId) {
+            nodeToRemove = node;
+          }
+        });
+        if (nodeToRemove) savedSessionsSection.removeChild(nodeToRemove);
+      }
+    );
   });
 }
