@@ -1,7 +1,7 @@
 {
   "name": "Session Saver",
   "version": "1.0",
-  "description": "Chrome extension that make you save a browsing session",
+  "description": "Save all tabs in a browsing window",
   "permissions": ["tabs", "declarativeContent", "storage"],
   "background": {
     "scripts": ["main.js"],
