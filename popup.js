@@ -42,7 +42,6 @@ function storeSession(name, urls) {
   let node = createLiNode(name, timestamp);
   chrome.storage.sync.get("SessionSaverSessions", function(data) {
     let sessionStore = data["SessionSaverSessions"];
-    let timestamp = Date.now();
     if (!sessionStore) {
       sessionStore = {};
     }
@@ -118,7 +117,7 @@ function Delete(sessionId) {
         let savedSessionsSection = document.getElementById("savedSessions");
         let nodeToRemove;
         savedSessionsSection.childNodes.forEach(node => {
-          if (node.dataset.sessionId === sessionId) {
+          if (node.dataset.sessionId == sessionId) {
             nodeToRemove = node;
           }
         });
