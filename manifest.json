@@ -2,9 +2,15 @@
   "name": "Session Saver",
   "version": "1.0",
   "description": "Save all tabs in a browsing window",
+  "icons": {
+    "16": "./assets/image/icon-16.png",
+    "32": "./assets/image/icon-32.png",
+    "48": "./assets/image/icon-48.png",
+    "128": "./assets/image/icon-128.png"
+  },
   "permissions": ["tabs", "declarativeContent", "storage"],
   "background": {
-    "scripts": ["main.js"],
+    "scripts": ["assets/js/main.js"],
     "persistent": false
   },
   "page_action": {
