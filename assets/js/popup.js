@@ -1,6 +1,5 @@
 const saveBtn = document.getElementById("saveSession");
 const options = ["Restore", "Delete"];
-let nextSessionIndex = 1;
 
 chrome.storage.sync.get("SessionSaverSessions", data => {
   let sessionStore = data["SessionSaverSessions"];
@@ -9,7 +8,6 @@ chrome.storage.sync.get("SessionSaverSessions", data => {
 
   if (sessionStore) {
     keys = Object.keys(sessionStore);
-    nextSessionIndex = keys.length + 1;
 
     keys.forEach(entry => {
       node = createLiNode(sessionStore[entry].name, entry);
@@ -19,26 +17,26 @@ chrome.storage.sync.get("SessionSaverSessions", data => {
 });
 
 saveBtn.onclick = () => {
-  let sessionName = getSessionName();
+  let timestamp = Date.now();
+  let sessionName = getSessionName(timestamp);
   chrome.tabs.query({ currentWindow: true }, tabs => {
     let tabUrls = tabs.map(tab => tab.url);
-    storeSession(sessionName, tabUrls);
+    storeSession(sessionName, tabUrls, timestamp);
   });
 };
 
-function getSessionName() {
-  let defaultName = getDefaultSessionName();
+function getSessionName(timestamp) {
+  let defaultName = getDefaultSessionName(timestamp);
   let sessionName = prompt("Enter Name", defaultName) || defaultName;
   return sessionName;
 }
 
-function getDefaultSessionName() {
-  return `Session - ${nextSessionIndex}`;
+function getDefaultSessionName(timestamp) {
+  return `Session - ${timestamp}`;
 }
 
-function storeSession(name, urls) {
+function storeSession(name, urls, timestamp) {
   let savedSessionsSection = document.getElementById("savedSessions");
-  let timestamp = Date.now();
   let node = createLiNode(name, timestamp);
   chrome.storage.sync.get("SessionSaverSessions", function(data) {
     let sessionStore = data["SessionSaverSessions"];
@@ -53,7 +51,6 @@ function storeSession(name, urls) {
       },
       function() {
         savedSessionsSection.appendChild(node);
-        nextSessionIndex += 1;
       }
     );
   });
@@ -95,13 +92,11 @@ function createLiNode(value, sessionId) {
   return node;
 }
 
-// TODO: keep track of open session maybe?
+// TODO: keep track of open session maybe? To prevent duplicate restore
 function Restore(sessionId) {
   chrome.storage.sync.get("SessionSaverSessions", function(data) {
     let sessionStore = data["SessionSaverSessions"];
-    chrome.windows.create({ url: sessionStore[sessionId].urls }, window => {
-      console.log(window);
-    });
+    chrome.windows.create({ url: sessionStore[sessionId].urls }, _ => {});
   });
 }
 
