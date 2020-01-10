@@ -7,3 +7,5 @@
 ```
 
 Chrome extension for saving all tabs of a open window. These tabs can be restored in a new window.
+
+https://chrome.google.com/webstore/detail/session-saver/lkiecnoahphgdbddphhhhhcihekccggo
